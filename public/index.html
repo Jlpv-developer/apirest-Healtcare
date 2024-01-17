@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healtcare Administration Red Salud SAC</title>
+</head>
+<body>
+
+  <h1>Healtcare Administration Red Salud SAC</h1>
+  
+  <button id="consultarBtn">Declaración de salud</button>
+
+  <div id="formulario" style="display: none;">
+    <label for="nroCertificado">Número de Certificado:</label>
+    <input type="text" id="nroCertificado" required>
+
+    <label for="contratoPropuesta">Contrato Propuesta:</label>
+    <input type="text" id="contratoPropuesta" required>
+
+    <p>Estimado afiliado, para continuar con el registro ingrese su número de certificado y contrato propuesta.</p>
+
+    <button id="consultarApiBtn">Consultar</button>
+  </div>
+
+  <script>
+    document.getElementById('consultarBtn').addEventListener('click', () => {
+      document.getElementById('formulario').style.display = 'block';
+    });
+
+    document.getElementById('consultarApiBtn').addEventListener('click', () => {
+      const nroCertificado = document.getElementById('nroCertificado').value;
+      const contratoPropuesta = document.getElementById('contratoPropuesta').value;
+
+      // Realizar la solicitud a la API
+      fetch('http://localhost:8080/api/usuarios', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nroCertificado, contratoPropuesta })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(`ID Asociado: ${data.idAsegurado_suscripcion}`);
+      })
+      .catch(error => {
+        console.error('Error al realizar la solicitud a la API:', error);
+      });
+    });
+  </script>
+
+</body>
+</html>
